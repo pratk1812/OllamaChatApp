@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<title>Delete Student Form</title>
+	</head>
+	<body>
+		<header>
+			<div th:insert="header :: headerFragment"></div>
+		</header>
+		<form action="#" th:action="@{/findStudentToDelete}" method="post">
+	        <label for="id">Student ID:</label>
+	        <input type="number" id="id" name="id" required/>
+	        <input type="submit" value="Find Student"/>
+    	</form>
+    	
+    	<table th:object="${studentBean}" th:if="${studentBean!=null}">
+    		<tr>
+    			<td>id</td>
+    			<td>name</td>
+    			<td>gpa</td>
+    			<td>age</td>
+    			<td>email</td>
+    			<td>major</td>
+    			<td>enrollmentDate</td>
+    		</tr>
+    		<tr>
+    			<td th:text="${studentBean.id}"/>
+    			<td th:text="${studentBean.name}"/>
+    			<td th:text="${studentBean.gpa}"/>
+    			<td th:text="${studentBean.age}"/>
+    			<td th:text="${studentBean.email}"/>
+    			<td th:text="${studentBean.major}"/>
+    			<td th:text="${studentBean.enrollmentDate}"/>
+    		</tr>
+    	</table>
+    	<form th:if="${studentBean != null}" action="#" th:action="@{/deleteStudent}" method="post">
+	        <input type="hidden" name="id" th:value="${studentBean.id}">
+	        <input type="submit" value="Delete Record">
+    	</form>
+    	<p>
+			<span th:if="${message != null}" th:text="${message}">Default message</span>
+		</p>
+	</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<title>Student Read Form</title>
+	</head>
+<body>
+	<form action="#" th:action="@{/readStudent}" th:object="${readStudentParams}" method="post">
+		<table>
+			<tr>
+				<td>From Date :</td>
+				<td><input type="date" th:field="*{fromDate}"/></td>
+				<td>To Date</td>
+				<td><input type="date" th:field="*{toDate}"/></td>
+			</tr>
+			<tr>
+				<td>From Age</td>
+				<td><input type="number" step="1" min="18" max="23" th:field="*{fromAge}" value =""/></td>
+				<td>To Age</td>
+				<td><input type="number" step="1" min="18" max="23" th:field="*{toAge}" value=""/></td>
+			</tr>
+			<tr>
+				<td>From GPA</td>
+				<td><input type="number" step="0.1" min="0.0" max="10.0" th:field="*{fromGPA}" /></td>
+				<td>To GPA</td>
+				<td><input type="number" step="0.1" min="0.0" max="10.0" th:field="*{toGPA}" /></td>
+			</tr>
+			<tr>
+            <td>Major:</td>
+	            <td>
+	                <select th:field="*{major}">
+	                	<option value = "">Select Major</option>
+	                    <option th:each="majorOpt : ${T(com.ragnarson.StudentMVC.enums.Major).values()}" th:value="${majorOpt}" th:text="${majorOpt}">Major</option>
+	                </select>
+	            </td>
+        	</tr>
+		</table>
+		<input type="submit" value="Submit" />
+	</form>
+</body>
+</html>

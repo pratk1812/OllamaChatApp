@@ -21,6 +21,7 @@ import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
@@ -32,10 +33,10 @@ import jakarta.validation.constraints.Size;
 public class StudentEntity {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	
-	@NotNull
+	@NotEmpty
 	@Size(min = 3, max = 30)
 	private String name;
 	
@@ -51,7 +52,7 @@ public class StudentEntity {
 	@Enumerated(EnumType.STRING)
 	private Major major;
 	
-	@NotNull
+	@NotEmpty
 	@Email()
 	private String email;
 	
@@ -61,11 +62,11 @@ public class StudentEntity {
 	@NotNull
 	private Date enrollmentDate;
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -93,6 +94,14 @@ public class StudentEntity {
 		this.age = age;
 	}
 
+	public Major getMajor() {
+		return major;
+	}
+
+	public void setMajor(Major major) {
+		this.major = major;
+	}
+
 	public String getEmail() {
 		return email;
 	}
@@ -111,7 +120,7 @@ public class StudentEntity {
 
 	@Override
 	public String toString() {
-		return "StudentEntity [id=" + id + ", name=" + name + ", gpa=" + gpa + ", age=" + age + ", email=" + email
-				+ ", enrollmentDate=" + enrollmentDate + "]";
+		return "StudentEntity [id=" + id + ", name=" + name + ", gpa=" + gpa + ", age=" + age + ", major=" + major
+				+ ", email=" + email + ", enrollmentDate=" + enrollmentDate + "]";
 	}
 }

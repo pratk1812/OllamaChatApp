@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    
+<head>
+    <title>Student Form</title>
+</head>
+
+<body>
+<header>
+	<div th:insert="header :: headerFragment"></div>
+</header>
+<form action="#" th:action="@{/addStudent}" th:object="${studentBean}" method="post">
+    <table>
+        <tr>
+            <td>Name:</td>
+            <td><input type="text" th:field="*{name}" /></td>
+            <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</td>
+        </tr>
+        <tr>
+            <td>GPA:</td>
+            <td><input type="number" step="0.1" min="0.0" max="10.0" th:field="*{gpa}" /></td>
+            <td th:if="${#fields.hasErrors('gpa')}" th:errors="*{gpa}">GPA Error</td>
+        </tr>
+        <tr>
+            <td>Age:</td>
+            <td><input type="number" min="18" max="23" th:field="*{age}" /></td>
+            <td th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Age Error</td>
+        </tr>
+        <tr>
+            <td>Email:</td>
+            <td><input type="email" th:field="*{email}" /></td>
+            <td th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</td>
+        </tr>
+        <tr>
+            <td>Major:</td>
+            <td>
+                <select th:field="*{major}">
+                    <option th:each="majorOpt : ${T(com.ragnarson.StudentMVC.enums.Major).values()}" th:value="${majorOpt}" th:text="${majorOpt}">Major</option>
+                </select>
+            </td>
+            <td th:if="${#fields.hasErrors('major')}" th:errors="*{major}">Major Error</td>
+        </tr>
+        <tr>
+            <td>Enrollment Date:</td>
+            <td><input type="date" th:field="*{enrollmentDate}" /></td>
+            <td th:if="${#fields.hasErrors('enrollmentDate')}" th:errors="*{enrollmentDate}">Enrollment Date Error</td>
+        </tr>
+    </table>
+    <input type="submit" value="Submit" />
+</form>
+
+<p>
+	<span th:if="${message != null}" th:text="${message}">Default message</span>
+</p>
+
+</body>
+</html>
