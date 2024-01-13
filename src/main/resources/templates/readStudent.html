@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 	<head>
 		<title>Student Read Form</title>
 	</head>
 <body>
+	<header>
+		<div th:insert="header :: headerFragment"></div>
+	</header>
 	<form action="#" th:action="@{/readStudent}" th:object="${readStudentParams}" method="post">
 		<table>
 			<tr>
@@ -15,9 +18,9 @@
 			</tr>
 			<tr>
 				<td>From Age</td>
-				<td><input type="number" step="1" min="18" max="23" th:field="*{fromAge}" value =""/></td>
+				<td><input type="number" step="1" min="18" max="23" th:field="*{fromAge}"/></td>
 				<td>To Age</td>
-				<td><input type="number" step="1" min="18" max="23" th:field="*{toAge}" value=""/></td>
+				<td><input type="number" step="1" min="18" max="23" th:field="*{toAge}"/></td>
 			</tr>
 			<tr>
 				<td>From GPA</td>
@@ -37,5 +40,28 @@
 		</table>
 		<input type="submit" value="Submit" />
 	</form>
+	<p>
+		<span th:if="${message != null}" th:text="${message}">Default message</span>
+	</p>
+	<table th:object="${students}" th:if="${students!=null}">
+	   	<tr>
+	   		<td>id</td>
+	   		<td>name</td>
+	   		<td>gpa</td>
+	   		<td>age</td>
+	   		<td>email</td>
+	   		<td>major</td>
+	   		<td>enrollmentDate</td>
+	   	</tr>
+    	<tr th:each="student : ${students}">
+	   		<td th:text="${student.id}"/>
+	   		<td th:text="${student.name}"/>
+	   		<td th:text="${student.gpa}"/>
+    		<td th:text="${student.age}"/>
+    		<td th:text="${student.email}"/>
+    		<td th:text="${student.major}"/>
+    		<td th:text="${student.enrollmentDate}"/>
+    	</tr>
+    </table>
 </body>
 </html>

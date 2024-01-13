@@ -2,6 +2,7 @@ package com.ragnarson.StudentMVC.service;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,12 +14,14 @@ import com.ragnarson.StudentMVC.bean.StudentBean;
 import com.ragnarson.StudentMVC.entity.StudentEntity;
 import com.ragnarson.StudentMVC.repo.StudentRepository;
 
+import jakarta.transaction.Transactional;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Valid;
 import jakarta.validation.Validator;
 
 
 @Service
+@Transactional
 public class StudentService {
 	
 	private static Logger log = LogManager.getLogger(StudentService.class);
@@ -49,10 +52,27 @@ public class StudentService {
 		}
 		return id;
 	}
-	public List<StudentBean> readByParams(ReadStudentParams studentParams) {
-		log.info(studentParams);
+	public List<StudentBean> readByParams(ReadStudentParams params) {
+		log.info("Read method is called : " + params);
 		
-		return null;
+		List<StudentEntity> entities = repository.findByParams(
+				params.getFromAge(), 
+				params.getToAge(), 
+				params.getFromGPA(), 
+				params.getToGPA(),
+				params.getFromDate(),
+				params.getToDate(),
+				params.getMajor());
+		
+		List<StudentBean> beans = entities.stream()
+				.map(entity ->{
+					StudentBean bean = new StudentBean();
+					BeanUtils.copyProperties(entity, bean);
+					return bean;
+				})
+				.collect(Collectors.toList());
+		
+		return beans;
 	}
 	public StudentBean findById(Long id) {
 		StudentEntity entity = repository.findById(id).get();
