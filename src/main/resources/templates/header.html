@@ -2,7 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 	<header id="customHeader">
 	    <a th:href="@{/}">Home</a>
-		<a href="javascript: document.logoutForm.submit()" sec:authorize="isAuthenticated()">Sign out</a>
+		<a href="javascript: document.logoutForm.submit()" th:if="${#authorization.expression('isAuthenticated()')}">Sign out</a>
+		<a th:href="@{/login}" th:unless="${#authorization.expression('isAuthenticated()')}">Sign in</a>
 		    <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
 		        <input hidden type="submit" value="Sign Out" />
 		    </form>

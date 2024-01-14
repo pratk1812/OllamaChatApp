@@ -4,7 +4,10 @@
 		<title>Please Log In</title>
 	</head>
 	<body>
-		<h1>Please Log In</h1>
+	<header>
+		<a th:href="@{/}">Home</a>
+	</header>
+		<h1>Log In</h1>
 		<div th:if="${param.error}">
 			Invalid username and password.</div>
 		<div th:if="${param.logout}">

@@ -7,6 +7,7 @@
 
 <body>
 <div th:replace="header :: #customHeader"></div>
+<h1>Add Student</h1>
 <form action="#" th:action="@{/addStudent/save}" th:object="${studentBean}" method="post">
     <table>
         <tr>
