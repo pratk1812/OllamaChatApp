@@ -5,10 +5,9 @@
 		<title>Student Read Form</title>
 	</head>
 <body>
-	<header>
-		<div th:insert="header :: headerFragment"></div>
-	</header>
-	<form action="#" th:action="@{/readStudent}" th:object="${readStudentParams}" method="post">
+	<div th:replace="header :: #customHeader"></div>
+	
+	<form action="#" th:action="@{/readStudent/read}" th:object="${readStudentParams}" method="post">
 		<table>
 			<tr>
 				<td>From Date :</td>
@@ -63,5 +62,6 @@
     		<td th:text="${student.enrollmentDate}"/>
     	</tr>
     </table>
+	<div th:replace="footer :: #customFooter"></div>
 </body>
 </html>

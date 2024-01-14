@@ -6,10 +6,8 @@
 </head>
 
 <body>
-<header>
-	<div th:insert="header :: headerFragment"></div>
-</header>
-<form action="#" th:action="@{/addStudent}" th:object="${studentBean}" method="post">
+<div th:replace="header :: #customHeader"></div>
+<form action="#" th:action="@{/addStudent/save}" th:object="${studentBean}" method="post">
     <table>
         <tr>
             <td>Name:</td>
@@ -53,5 +51,6 @@
 	<span th:if="${message != null}" th:text="${message}">Default message</span>
 </p>
 
+<div th:replace="footer :: #customFooter"></div>
 </body>
 </html>

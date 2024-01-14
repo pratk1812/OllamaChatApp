@@ -21,7 +21,7 @@ public class StudentBean implements Serializable{
 
 	private static final long serialVersionUID = 8565523033516376541L;
 
-	private Long id;
+	private Long id = -1L;
 	
 	@NotEmpty(message = "Value cannot be Empty")
 	@Size(min = 3, max = 30, message = "Size must be between 3 and 30")

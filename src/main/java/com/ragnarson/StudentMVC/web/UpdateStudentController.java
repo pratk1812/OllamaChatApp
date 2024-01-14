@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -22,12 +23,12 @@ public class UpdateStudentController {
 	@Autowired
 	private StudentService service;
 
-	@GetMapping("/updateStudent")
-	public ModelAndView getUpdateStudent() {
+	@GetMapping("/updateStudent/load")
+	public ModelAndView load() {
 		return new ModelAndView("updateStudent");
 	}
 	
-	@PostMapping("/findStudentToUpdate")
+	@PostMapping("/updateStudent/find")
 	public ModelAndView findStudent(Long id) {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("updateStudent");
@@ -37,8 +38,8 @@ public class UpdateStudentController {
 		return modelAndView;
 	}
 	
-	@PostMapping("/updateStudent")
-	public ModelAndView updateStudent(@Valid StudentBean studentBean) {
+	@PostMapping("/updateStudent/update")
+	public ModelAndView updateStudent(@ModelAttribute @Valid StudentBean studentBean) {
 		
 		log.info(studentBean);
 		

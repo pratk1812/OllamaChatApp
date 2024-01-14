@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -25,26 +26,26 @@ public class ReadStudentController {
 	@Autowired
 	private StudentService service;
 
-	@GetMapping("/readStudent")
+	@GetMapping("/readStudent/load")
 	public ModelAndView getReadStudent() {
 		ModelAndView modelAndView = new ModelAndView("readStudent");
 		modelAndView.addObject("readStudentParams", new ReadStudentParams());
 		return modelAndView;
 	}
 	
-	@PostMapping("/readStudent")
-	public ModelAndView readStudent(@Valid ReadStudentParams studentParams, BindingResult bindingResult) {
-		ModelAndView modelAndView = new ModelAndView();
+	@PostMapping("/readStudent/read")
+	public ModelAndView readStudent(
+			@ModelAttribute @Valid ReadStudentParams studentParams, BindingResult bindingResult) {
+		ModelAndView modelAndView = new ModelAndView("readStudent");
 		List<StudentBean> result = null;
-		if(bindingResult.hasErrors()) {
-			
-		}else {
+		if(!bindingResult.hasErrors()) {
 			result = service.readByParams(studentParams);
+			if(result!=null) {
+				log.info("List size"+result.size());
+				modelAndView.addObject("students", result);
+				modelAndView.addObject("message", "data read with list size " + result.size());
+			}
 		}
-		
-		log.info("List size"+result.size());
-		modelAndView.addObject("students", result);
-		modelAndView.addObject("message", "data read with list size " + result.size());
 		return modelAndView;
 	}
 }

@@ -22,14 +22,14 @@ public class AddStudentController {
 	@Autowired
 	private StudentService service;
 	
-	@GetMapping("/addStudent")
+	@GetMapping("/addStudent/load")
 	public ModelAndView getAddStudent() {
 		ModelAndView modelAndView = new ModelAndView("addStudent");
 		modelAndView.addObject("studentBean", new StudentBean());
 		return modelAndView;
 	}
 	
-	@PostMapping("/addStudent")
+	@PostMapping("/addStudent/save")
 	public ModelAndView addStudent(@Valid StudentBean studentBean, BindingResult bindingResult) {
 		ModelAndView modelAndView = new ModelAndView();
 		if(bindingResult.hasErrors())

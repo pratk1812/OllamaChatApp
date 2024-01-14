@@ -8,7 +8,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.RegexRequestMatcher;
 
+import com.ragnarson.StudentMVC.enums.Roles;
 import com.ragnarson.StudentMVC.service.UserService;
 
 @SuppressWarnings("deprecation")
@@ -34,14 +36,19 @@ public class MySecConfig {
     	http
         .authenticationProvider(authenticationProvider)
         .authorizeHttpRequests(authorize -> authorize
-            .requestMatchers("/readStudents").hasRole("USER")
-            .requestMatchers("/createStudent", "/updateStudent", "/deleteStudent").hasRole("ADMIN")
-            .requestMatchers("/register", "/").permitAll()
-            .anyRequest().authenticated())
+            .requestMatchers(RegexRequestMatcher.regexMatcher("/(addStudent|readStudent)/[A-Za-z0-9]+")).hasAuthority(Roles.USER.name())
+            .requestMatchers(RegexRequestMatcher.regexMatcher("/(deleteStudent|updateStudent)/[A-Za-z0-9]+")).hasAuthority(Roles.ADMIN.name())
+            .requestMatchers("/").permitAll()
+            .anyRequest().permitAll())
         .formLogin(form->form
         		.loginPage("/login")
         		.failureUrl("/login?error=true")
-        		.permitAll());
+        		.permitAll())
+        .logout(logout -> logout
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID"));
 
         return http.build();
     }

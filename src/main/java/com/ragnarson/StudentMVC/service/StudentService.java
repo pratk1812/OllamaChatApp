@@ -1,6 +1,7 @@
 package com.ragnarson.StudentMVC.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -75,10 +76,15 @@ public class StudentService {
 		return beans;
 	}
 	public StudentBean findById(Long id) {
-		StudentEntity entity = repository.findById(id).get();
-		StudentBean studentBean = new StudentBean();
-		BeanUtils.copyProperties(entity, studentBean);
-		return studentBean;		
+		Optional<StudentEntity> entityOptional = repository.findById(id);
+		StudentBean bean = new StudentBean();
+		if(entityOptional.isEmpty()) {
+			log.error("Data not found");
+			return null;
+		}else {
+			BeanUtils.copyProperties(entityOptional.get(), bean);
+			return bean;
+		}		
 	}
 	public Long update(@Valid StudentBean studentBean) {
 		Set<ConstraintViolation<StudentBean>> violations = validator.validate(studentBean);
