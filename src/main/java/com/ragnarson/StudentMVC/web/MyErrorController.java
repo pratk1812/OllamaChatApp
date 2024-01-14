@@ -1,8 +1,12 @@
 package com.ragnarson.StudentMVC.web;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.boot.web.servlet.error.ErrorController;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -11,6 +15,8 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 public class MyErrorController implements ErrorController{
+
+	private static Logger log = LogManager.getLogger(MyErrorController.class);
 
 	@RequestMapping("/error")
 	public ModelAndView handleError(HttpServletRequest request) {
@@ -25,5 +31,12 @@ public class MyErrorController implements ErrorController{
 	    ModelAndView errorPage = new ModelAndView("error");
 	    errorPage.addObject("errorMsg", e.getMessage());
 	    return errorPage;
+	}
+	
+	@RequestMapping("/report")
+	public ResponseEntity<Void> report(@RequestBody String report) {
+		log.warn("Malicious activity detected :: " + report);
+		
+		return ResponseEntity.noContent().build();
 	}
 }

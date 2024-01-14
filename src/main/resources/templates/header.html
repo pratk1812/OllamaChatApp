@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 	<header id="customHeader">
-	    <a th:href="@{/}">Home</a>
-		<a href="javascript: document.logoutForm.submit()" th:if="${#authorization.expression('isAuthenticated()')}">Sign out</a>
-		<a th:href="@{/login}" th:unless="${#authorization.expression('isAuthenticated()')}">Sign in</a>
-		    <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
-		        <input hidden type="submit" value="Sign Out" />
-		    </form>
+		<form th:name="logoutform" th:action="@{/logout}" method="post">
+		    <a th:href="@{/}">Home</a>
+			<a th:href="@{/login}" th:unless="${#authorization.expression('isAuthenticated()')}">Sign in</a>
+		    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" th:if="${#authorization.expression('isAuthenticated()')}"/>
+		    <input type="submit" value="logout" th:if="${#authorization.expression('isAuthenticated()')}"/>
+		</form>
 	</header>
 </html>
