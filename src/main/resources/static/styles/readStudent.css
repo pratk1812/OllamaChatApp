@@ -1,0 +1,86 @@
+@import url('header.css');
+@import url('footer.css');
+@import url('body.css');
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.container h1 {
+    text-align: center;
+    color: #333;
+}
+
+.container-filters form {
+    margin: auto;
+    font-size: large;
+}
+
+.container-filters table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.container-filters table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+.container-filters table input,
+.container-filters table select {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+}
+.container-filters table input:focus,
+.container-filters table select:focus {
+    background-color: #eee;
+}
+input[type="submit"] {
+    font-size: large;
+    background-color: antiquewhite;
+    color: midnightblue;
+    padding: 10px;
+    border: 1px solid #ddd;    
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: burlywood;
+}
+
+.message {
+    text-align: center;
+    font-size: medium;
+    margin: 20px 0;
+    color: #333;
+}
+
+/* Result Table Styles */
+.container-result table {
+    border-collapse: collapse;
+    margin: auto;
+}
+
+.container-result table thead,
+.container-result table td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.container-result table thead {
+    background-color: antiquewhite;
+    color: midnightblue;
+}
+
+.container-result table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}

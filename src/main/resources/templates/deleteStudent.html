@@ -3,46 +3,59 @@
 
 	<head>
 		<title>Delete Student Form</title>
+		<link th:href="@{/styles/deleteStudent.css}" rel="stylesheet" type="text/css">
+
+		
 	</head>
 	<body>
 		<div th:replace="header :: #customHeader"></div>
-		<h1>Delete Student</h1>
-		
-		<form action="#" th:action="@{/deleteStudent/find}" method="post">
-	        <label for="id">Student ID:</label>
-	        <input type="number" id="id" name="id" required value="0"/>
-	        <input type="submit" value="Find Student"/>
-    	</form>
-    	
-    	<table th:object="${studentBean}" th:if="${studentBean!=null}">
-    		<tr>
-    			<td>id</td>
-    			<td>name</td>
-    			<td>gpa</td>
-    			<td>age</td>
-    			<td>email</td>
-    			<td>major</td>
-    			<td>enrollmentDate</td>
-    		</tr>
-    		<tr>
-    			<td th:text="${studentBean.id}"/>
-    			<td th:text="${studentBean.name}"/>
-    			<td th:text="${studentBean.gpa}"/>
-    			<td th:text="${studentBean.age}"/>
-    			<td th:text="${studentBean.email}"/>
-    			<td th:text="${studentBean.major}"/>
-    			<td th:text="${studentBean.enrollmentDate}"/>
-    		</tr>
-    	</table>
-    	<form th:if="${studentBean != null}" action="#" th:action="@{/deleteStudent/delete}" method="post">
-	        <input type="hidden" name="id" th:value="${studentBean.id}">
-	        <input type="submit" value="Delete Record">
-    	</form>
-    	<p>
-			<span th:if="${message != null}" th:text="${message}">Default message</span>
-		</p>
-		
+		<div class="container">
+			<h1>Delete Student</h1>
+			
+			<div class="container-find">
+				<form action="#" th:action="@{/deleteStudent/find}" method="post">
+					<label for="id">Student ID:</label>
+					<input type="number" id="id" name="id" min="1" value="1" required/>
+					<input type="submit" value="Find Student"/>
+				</form>
+			</div>
+			
+			<div class="container-delete">
+				<table th:object="${studentBean}" th:if="${studentBean!=null}">
+					<thead>
+					<tr>
+						<td>id</td>
+						<td>name</td>
+						<td>gpa</td>
+						<td>age</td>
+						<td>email</td>
+						<td>major</td>
+						<td>enrollmentDate</td>
+					</tr>
+					</thead>
+					<tbody>
+					<tr>
+						<td th:text="${studentBean.id}"/>
+						<td th:text="${studentBean.name}"/>
+						<td th:text="${studentBean.gpa}"/>
+						<td th:text="${studentBean.age}"/>
+						<td th:text="${studentBean.email}"/>
+						<td th:text="${studentBean.major}"/>
+						<td th:text="${studentBean.enrollmentDate}"/>
+					</tr>
+					</tbody>
+				</table>
+				<form th:if="${studentBean != null}" action="#" th:action="@{/deleteStudent/delete}" method="post">
+					<input type="hidden" name="id" th:value="${studentBean.id}">
+					<input type="submit" value="Delete Record">
+				</form>
+			</div>
+			<div class="container-message">
+				<p>
+					<span th:if="${message != null}" th:text="${message}">Default message</span>
+				</p>
+			</div>
+		</div>
 		<div th:replace="footer :: #customFooter"></div>
-		
 	</body>
 </html>

@@ -1,20 +1,25 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     
 <head>
     <title>Student Management</title>
+    <script type="application/javascript" src="scripts/index.js"></script>
+    <link  th:href="@{styles/index.css}" rel="stylesheet" type="text/css">
 </head>
 <body>
-	<div th:replace="header :: #customHeader"></div>
+	<div th:replace="~{header :: #customHeader}"></div>
 
-    <h1>Welcome to Student Management System</h1>
-    <ul>
-        <li><a th:href="@{/addStudent/load}">Add Student</a></li>
-        <li><a th:href="@{/readStudent/load}">Read Student</a></li>
-        <li><a th:href="@{/updateStudent/load}">Update Student</a></li>
-        <li><a th:href="@{/deleteStudent/load}">Delete Student</a></li>
-    </ul>
-    
-    <div th:replace="footer :: #customFooter"></div>
+    <div class="container">
+        <h1>Welcome to Student Management System</h1>
+        <div class="container-options">
+            <table>
+                <tr><td><a th:href="@{/addStudent/load}">Add Student</a></td></tr>
+                <tr><td><a th:href="@{/readStudent/load}">Read Student</a></td></tr>
+                <tr><td><a th:href="@{/updateStudent/load}">Update Student</a></td></tr>
+                <tr><td><a th:href="@{/deleteStudent/load}">Delete Student</a></td></tr>
+            </table>
+        </div>
+    </div>
+    <div th:replace="~{footer :: #customFooter}"></div>
 </body>
 </html>

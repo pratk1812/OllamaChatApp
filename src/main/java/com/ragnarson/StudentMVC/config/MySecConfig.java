@@ -3,7 +3,6 @@ package com.ragnarson.StudentMVC.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -50,15 +49,16 @@ public class MySecConfig {
     			.sessionConcurrency(concurrency->concurrency
     					.maximumSessions(1)
     					.maxSessionsPreventsLogin(true))
-    			.sessionFixation().migrateSession())
+    			.sessionFixation().changeSessionId())
     	.headers(headers->headers
     			.addHeaderWriter(new StaticHeadersWriter("Report-to", REPORT_TO))
         		.xssProtection(xss->xss
         				.headerValue(HeaderValue.ENABLED_MODE_BLOCK))
         		.contentSecurityPolicy(policy->policy
-        				.policyDirectives("form-action 'self'; script-src 'self'; style-src 'self'; report-to csp-violation-report")))
+        				.policyDirectives("form-action 'self'; style-src 'self'; script-src 'self'; report-to csp-violation-report")))
         .authenticationProvider(authenticationProvider)
         .authorizeHttpRequests(authorize -> authorize
+        	.requestMatchers("/static/**").permitAll()
             .requestMatchers(RegexRequestMatcher.regexMatcher("/(addStudent|readStudent)/[A-Za-z0-9]+")).hasAuthority(Roles.USER.name())
             .requestMatchers(RegexRequestMatcher.regexMatcher("/(deleteStudent|updateStudent)/[A-Za-z0-9]+")).hasAuthority(Roles.ADMIN.name())
             .requestMatchers("/").permitAll()

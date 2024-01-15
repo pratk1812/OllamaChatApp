@@ -1,0 +1,101 @@
+@import url('header.css');
+@import url('footer.css');
+@import url('body.css');
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.container h1 {
+    color: #333;
+    text-align: center;
+}
+
+/* Find Student Form Styles */
+.container-find {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.container-find form {
+    display: inline-block;
+}
+
+.container-find label {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.container-find input[type="number"] {
+    padding: 8px;
+    font-size: 16px;
+}
+
+.container-find input[type="submit"] {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: antiquewhite;
+    color: midnightblue;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.container-find input[type="submit"]:hover{
+    background-color: burlywood;
+}
+
+/* Delete Student Table Styles */
+.container-delete table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+}
+
+.container-delete table,
+.container-delete table td,
+.container-delete table thead {
+    border: 1px solid #ddd;
+}
+
+.container-delete table td,
+.container-delete table thead {
+    padding: 10px;
+    text-align: left;
+}
+
+.container-delete table thead {
+    background-color: antiquewhite;
+    color: midnightblue;
+}
+
+/* Delete Record Form Styles */
+.container-delete form {
+    margin-top: 20px;
+}
+
+.container-delete form input[type="submit"] {
+    background-color: #e74c3c;
+    color: white;
+    font-size: 16px;
+    padding: 10px 20px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        cursor: pointer;
+}
+
+/* Message Styles */
+.container-message {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.container-message span {
+    color: #e74c3c;
+    font-weight: bold;
+}

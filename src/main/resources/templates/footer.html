@@ -3,10 +3,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <body>
-	<footer id="customFooter">
-		<div sec:authorize="isAuthenticated()">
-			<p>logged in as : <span sec:authentication="name"></span></p>
-		</div>
+	<footer id="customFooter" class="customFooter">
+		<ul>
+			<li class="loggedin-user"><span class="username" sec:authentication="name"></span></li>
+			<li>Student Data Management (c)</li>
+		</ul>
 	</footer>
 </body>
 
