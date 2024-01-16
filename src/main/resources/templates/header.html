@@ -11,7 +11,7 @@
 			<h1>SDM</h1>
 			<h2><a th:href="@{/}">Home</a></h2>
 			<div class="navbar-submit">
-				<form th:action="@{/login}" sec:authorize="isAnonymous()" th:method="get">
+				<form method="get" th:action="@{/login}" sec:authorize="isAnonymous()" th:method="get">
 					<input type="submit" value="login">
 				</form>
 				<form method="post" th:action="@{/logout}" sec:authorize="isAuthenticated()">

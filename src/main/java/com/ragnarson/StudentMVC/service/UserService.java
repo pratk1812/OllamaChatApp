@@ -1,5 +1,6 @@
 package com.ragnarson.StudentMVC.service;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.stream.Collectors;
@@ -60,6 +61,7 @@ public class UserService implements UserDetailsService {
 				entity = new UserEntity();
 				entity.setUsername(username);
 				entity.setPassword(passwordEncoder.encode(password));
+				//entity.setRoles(Arrays.asList(Roles.ADMIN,Roles.USER));
 				entity.setRoles(Collections.singletonList(Roles.USER));
 				userRepository.save(entity);
 			}catch (Exception e) {
