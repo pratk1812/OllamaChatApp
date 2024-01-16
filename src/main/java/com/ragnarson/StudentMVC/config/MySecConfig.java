@@ -2,7 +2,10 @@ package com.ragnarson.StudentMVC.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -57,7 +60,9 @@ public class MySecConfig {
         		.xssProtection(xss->xss
         				.headerValue(HeaderValue.ENABLED_MODE_BLOCK))
         		.contentSecurityPolicy(policy->policy
-        				.policyDirectives("form-action 'self'; style-src 'self'; script-src 'self'; report-to csp-violation-report")))
+        				.policyDirectives("form-action 'self'; style-src 'self'; script-src 'self'; report-to csp-violation-report"))
+        		.frameOptions(frame->frame
+        				.sameOrigin()))
         .authenticationProvider(authenticationProvider)
         .authorizeHttpRequests(authorize -> authorize
         	.requestMatchers("/static/**").permitAll()
@@ -76,5 +81,12 @@ public class MySecConfig {
                 .deleteCookies("JSESSIONID"));
 
         return http.build();
+    }
+    
+    @DependsOn("securityFilterChain")
+    @Bean
+    public AuthenticationManager authenticationManager(HttpSecurity httpSecurity) {
+    	return httpSecurity.getSharedObject(AuthenticationManagerBuilder.class)
+    			.getOrBuild();
     }
 }

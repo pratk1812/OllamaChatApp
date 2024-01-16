@@ -15,13 +15,13 @@
 			<div class="container-find">
 				<form action="#" th:action="@{/deleteStudent/find}" method="post">
 					<label for="id">Student ID:</label>
-					<input type="number" id="id" name="id" min="1" value="1" required/>
+					<input type="number" id="id" name="id" min="1" value="" required/>
 					<input type="submit" value="Find Student"/>
 				</form>
 			</div>
 			
-			<div class="container-delete">
-				<table th:object="${studentBean}" th:if="${studentBean!=null}">
+			<div class="container-delete" th:if="${studentBean!=null}">
+				<table th:object="${studentBean}">
 					<thead>
 					<tr>
 						<td>id</td>
@@ -45,10 +45,7 @@
 					</tr>
 					</tbody>
 				</table>
-				<form th:if="${studentBean != null}" action="#" th:action="@{/deleteStudent/delete}" method="post">
-					<input type="hidden" name="id" th:value="${studentBean.id}">
-					<input type="submit" value="Delete Record">
-				</form>
+				<button id="deleteBtn">Delete</button>
 			</div>
 			<div class="container-message">
 				<p>
@@ -56,6 +53,22 @@
 				</p>
 			</div>
 		</div>
+		
+		<div id="myPopUp" class="container-popup">
+			<div class="container-popup-form">
+				<span id="close" class="close">&times;</span>
+				<h1>Log In</h1>
+				<p>confirm credentials to continue</p>
+				<form id="loginPopUp" th:action="@{/delete/login}" th:method="post">
+							<input type="text" name="username" placeholder="username" />
+							<input type="password" name="password" placeholder="password" />
+							<input type="submit" value="Log in" />
+				</form>
+			</div>
+		</div>
+		
 		<div th:replace="footer :: #customFooter"></div>
+		
+		<script th:src="@{/scripts/deleteStudent.js}" type="text/javascript"></script>
 	</body>
 </html>
