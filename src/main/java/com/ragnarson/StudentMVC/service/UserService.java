@@ -39,8 +39,10 @@ public class UserService implements UserDetailsService {
 		log.info("Loading user : " + username);
 		UserEntity entity = userRepository.findByUsername(username);
 		
-		if(entity==null)
+		if(entity==null) {
+			log.info("user not found");
 			throw new UsernameNotFoundException("user not found : " + username);
+		}
 		
 		log.info("user returned : " + entity);
 		Collection<GrantedAuthority> authorities = entity.getRoles().stream()
