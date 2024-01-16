@@ -43,6 +43,3 @@ mvn clean install
 mvn spring-boot:run
 
 Visit `http://localhost:8080` in your browser to access the application.
-
-## License
-This project is licensed under the MIT License.
