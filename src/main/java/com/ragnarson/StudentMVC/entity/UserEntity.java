@@ -1,14 +1,15 @@
 package com.ragnarson.StudentMVC.entity;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
-import com.ragnarson.StudentMVC.enums.Roles;
+import org.springframework.security.core.GrantedAuthority;
 
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -28,9 +29,9 @@ public class UserEntity {
 	@Column(nullable = false)
 	private String password;
 	
-	@ElementCollection(targetClass = Roles.class)
-	@Enumerated(EnumType.STRING)
-	private List<Roles> roles;
+	@ElementCollection(targetClass = Authority.class)
+	@CollectionTable(name = "user_authorities")
+	private List<Authority> authorities;
 
 	public Long getId() {
 		return id;
@@ -56,16 +57,22 @@ public class UserEntity {
 		this.password = password;
 	}
 
-	public List<Roles> getRoles() {
-		return roles;
+	public List<Authority> getAuthorities() {
+		return authorities;
 	}
 
-	public void setRoles(List<Roles> roles) {
-		this.roles = roles;
+	public void setAuthorities(List<Authority> authorities) {
+		this.authorities = authorities;
 	}
 
+	public void setAuthoritiesAll(Collection<? extends GrantedAuthority> authorities) {
+		this.authorities = authorities.stream().map(x-> new Authority(x.getAuthority())).toList();
+
+				
+	}
 	@Override
 	public String toString() {
-		return "UserEntity [id=" + id + ", username=" + username + ", password=" + password + ", roles=" + roles + "]";
+		return "UserEntity [id=" + id + ", username=" + username + ", password=" + password + ", authorities="
+				+ authorities + "]";
 	}
 }

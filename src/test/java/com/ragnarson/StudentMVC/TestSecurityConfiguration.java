@@ -1,20 +1,24 @@
-package com.ragnarson.StudentMVC.config;
+package com.ragnarson.StudentMVC;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
-import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.User.UserBuilder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.header.writers.StaticHeadersWriter;
 import org.springframework.security.web.header.writers.XXssProtectionHeaderWriter.HeaderValue;
@@ -24,11 +28,11 @@ import org.springframework.security.web.util.matcher.RegexRequestMatcher;
 import com.ragnarson.StudentMVC.enums.Roles;
 import com.ragnarson.StudentMVC.service.UserService;
 
-@Configuration
+@TestConfiguration
 @EnableWebSecurity
-public class MySecConfig {
+public class TestSecurityConfiguration {
 
-	private static Logger log = LogManager.getLogger(MySecConfig.class);
+	private static Logger log = LogManager.getLogger(TestSecurityConfiguration.class);
 
 	@Bean
 	public HttpSessionEventPublisher httpSessionEventPublisher() {
@@ -36,12 +40,25 @@ public class MySecConfig {
 	}
 	@Bean
     public PasswordEncoder passwordEncoder() {
-        //return NoOpPasswordEncoder.getInstance();
-		return new BCryptPasswordEncoder();
+        return NoOpPasswordEncoder.getInstance();
     }
 
+	@Bean
+	public InMemoryUserDetailsManager userService() {
+		return new InMemoryUserDetailsManager(
+				User.withUsername("admin")
+					.password("admin")
+					.authorities(new SimpleGrantedAuthority(Roles.ADMIN.name()),new SimpleGrantedAuthority(Roles.USER.name()))
+					//.roles(Roles.ADMIN.name(),Roles.USER.name())
+					.build(),
+				User.withUsername("user")
+					.password("user")
+					.authorities(new SimpleGrantedAuthority(Roles.USER.name()))
+					.build());
+	}
+	
     @Bean
-    public DaoAuthenticationProvider authenticationProvider(PasswordEncoder passwordEncoder, UserService userService) {
+    public DaoAuthenticationProvider authenticationProvider(PasswordEncoder passwordEncoder, InMemoryUserDetailsManager userService) {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userService);
         authProvider.setPasswordEncoder(passwordEncoder);
@@ -53,29 +70,14 @@ public class MySecConfig {
     	log.info("Create application SecurityFilterChain");
 
     	
-    	final String REPORT_TO = "{\"group\":\"csp-violation-report\",\"max_age\":2592000,\"endpoints\":[{\"url\":\"https://localhost:8080/report\"}]}";
+    	//final String REPORT_TO = "{\"group\":\"csp-violation-report\",\"max_age\":2592000,\"endpoints\":[{\"url\":\"https://localhost:8080/report\"}]}";
     	http
-    	.sessionManagement(session->session
-    			.enableSessionUrlRewriting(false)
-    			.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-    			.sessionConcurrency(concurrency->concurrency
-    					.maximumSessions(1)
-    					.maxSessionsPreventsLogin(true))
-    			.sessionFixation().changeSessionId())
-    	.headers(headers->headers
-    			.addHeaderWriter(new StaticHeadersWriter("Report-to", REPORT_TO))
-        		.xssProtection(xss->xss
-        				.headerValue(HeaderValue.ENABLED_MODE_BLOCK))
-        		.contentSecurityPolicy(policy->policy
-        				.policyDirectives("form-action 'self'; style-src 'self'; script-src 'self'; report-to csp-violation-report"))
-        		.frameOptions(frame->frame
-        				.sameOrigin()))
         .authenticationProvider(authenticationProvider)
         .authorizeHttpRequests(authorize -> authorize
         	.requestMatchers("/static/**").permitAll()
             .requestMatchers(RegexRequestMatcher.regexMatcher("/(addStudent|readStudent)/[A-Za-z0-9]+")).hasAuthority(Roles.USER.name())
             .requestMatchers(RegexRequestMatcher.regexMatcher("/(deleteStudent|updateStudent)/[A-Za-z0-9]+")).hasAuthority(Roles.ADMIN.name())
-            .requestMatchers("/").permitAll()
+            .requestMatchers("/**").permitAll()
             .anyRequest().permitAll())
         .formLogin(form->form
         		.loginPage("/login")

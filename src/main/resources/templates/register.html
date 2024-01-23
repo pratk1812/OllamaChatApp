@@ -20,6 +20,12 @@
                 <input type="text" id="username" name="username" required><br>
                 <label for="password">Password:</label><br>
                 <input type="password" id="password" name="password" required><br>
+                
+                <label>Roles:</label><br>
+                <div class="container-form-roles-options" th:each="role : ${roles}">
+                	<input type="checkbox" name="options" th:value="${role}" th:text="${role}"/>
+                </div>
+                                
                 <input type="submit" value="Register">
             </form>
         </div>

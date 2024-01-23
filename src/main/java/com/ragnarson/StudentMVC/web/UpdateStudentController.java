@@ -3,6 +3,7 @@ package com.ragnarson.StudentMVC.web;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -29,7 +30,7 @@ public class UpdateStudentController {
 	}
 	
 	@PostMapping("/updateStudent/find")
-	public ModelAndView findStudent(Long id) {
+	public ModelAndView find(Long id) {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("updateStudent");
 		StudentBean studentBean = service.findById(id);
@@ -39,7 +40,7 @@ public class UpdateStudentController {
 	}
 	
 	@PostMapping("/updateStudent/update")
-	public ModelAndView updateStudent(@ModelAttribute @Valid StudentBean studentBean) {
+	public ModelAndView update(@ModelAttribute @Valid StudentBean studentBean) {
 		
 		log.info(studentBean);
 		

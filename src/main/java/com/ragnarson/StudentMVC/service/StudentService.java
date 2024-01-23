@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import com.ragnarson.StudentMVC.bean.StudentBean;
@@ -75,7 +76,7 @@ public class StudentService {
 		
 		return beans;
 	}
-	public StudentBean findById(Long id) {
+	public StudentBean findById(@NonNull Long id) {
 		Optional<StudentEntity> entityOptional = repository.findById(id);
 		StudentBean bean = new StudentBean();
 		if(entityOptional.isEmpty()) {

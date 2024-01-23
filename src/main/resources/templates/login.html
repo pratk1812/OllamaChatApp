@@ -7,17 +7,21 @@
 	<body>
 		<div th:replace="~{header :: #customHeader}"></div>
 			<div class="container">
+			<div class="container-login">
+			<p th:text="${alert}"></p>
+			
 				<h1>Log In</h1>
 				<h3 class="login-error" th:if="${param.error}">Invalid username and password.</h3>
 				<div class="container-form">
 					<form id="login" th:action="@{/login}" th:method="post">
-						<input type="text" name="username" placeholder="username" />
-						<input type="password" name="password" placeholder="password" />
+						<input type="text" name="username" placeholder="username" required/>
+						<input type="password" name="password" placeholder="password" required />
 						<input type="submit" value="Log in" />
 					</form>
 					<form id="register" th:action="@{/register}" th:method="get">
 						<input type="submit" value="Register" />
 					</form>
+				</div>
 				</div>
 			</div>
 

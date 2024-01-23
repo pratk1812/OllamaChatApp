@@ -1,21 +1,19 @@
 package com.ragnarson.StudentMVC.service;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.stream.Collectors;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.lang.NonNull;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 
+import com.ragnarson.StudentMVC.entity.Authority;
 import com.ragnarson.StudentMVC.entity.UserEntity;
 import com.ragnarson.StudentMVC.enums.Roles;
 import com.ragnarson.StudentMVC.repo.UserRepository;
@@ -24,7 +22,7 @@ import jakarta.transaction.Transactional;
 
 @Service
 @Transactional
-public class UserService implements UserDetailsService {
+public class UserService implements UserDetailsManager {
 	
 	private static Logger log = LogManager.getLogger(UserService.class);
 
@@ -43,36 +41,62 @@ public class UserService implements UserDetailsService {
 			log.info("user not found");
 			throw new UsernameNotFoundException("user not found : " + username);
 		}
-		
-		log.info("user returned : " + entity);
-		Collection<GrantedAuthority> authorities = entity.getRoles().stream()
-				.map(role -> new SimpleGrantedAuthority(role.name()))
-				.collect(Collectors.toList());
-		
-		return new MyUserPrincipal(entity.getUsername(), entity.getPassword(), authorities);
+		return new User(entity.getUsername(), entity.getPassword(), entity.getAuthorities());
 	}
 
-	public boolean registerNew(String username, String password) {
-		log.info("Username : " + username + " Password : " + password);
-		UserEntity entity = userRepository.findByUsername(username);
-		if(entity!=null) {
-			log.warn("user already exists " + entity);
-			return false;
+	@Override
+	public void createUser(UserDetails user) {
+		if(user==null) {
+			log.info("user invalid");
+			return;
+		}
+		
+		log.info("Creating user");
+		UserEntity userEntity = new UserEntity();
+		userEntity.setUsername(user.getUsername());
+		userEntity.setPassword(passwordEncoder.encode(user.getPassword()));
+		userEntity.setAuthoritiesAll(user.getAuthorities());
+		userRepository.save(userEntity);
+	}
+
+	@Override
+	public void updateUser(UserDetails user) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteUser(String username) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void changePassword(String oldPassword, String newPassword) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean userExists(String username) {
+		return userRepository.existsByUsername(username);
+	}
+
+	public void register(String username, String password, List<Roles> roles) throws ServiceException {
+		
+		log.info("found : " + userRepository.findByUsername(username));
+		
+		boolean checkParams = (username==null || username.isEmpty()) || (password==null || password.isEmpty()) || (roles==null || roles.isEmpty());
+		if (checkParams) {
+			throw new ServiceException("Bad Credentials");
+		}else if (userRepository.findByUsername(username)!=null) {
+			throw new ServiceException("User already exists");
 		}else {
-			try {
-				entity = new UserEntity();
-				entity.setUsername(username);
-				entity.setPassword(passwordEncoder.encode(password));
-				//entity.setRoles(Arrays.asList(Roles.ADMIN,Roles.USER));
-				entity.setRoles(Collections.singletonList(Roles.USER));
-				userRepository.save(entity);
-			}catch (Exception e) {
-				log.error("Exception caught " + e);
-				return false;
-			}
-			log.info("save successful");
-			return true;
+			UserEntity entity = new UserEntity();
+			entity.setUsername(username);
+			entity.setPassword(password);
+			entity.setAuthorities(roles.stream().map(x -> new Authority(x)).toList());
+			userRepository.save(entity);
 		}
 	}
-
 }

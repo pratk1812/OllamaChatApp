@@ -28,8 +28,8 @@
 }
 
 .container-form input[type="text"],
-.container-form input[type="password"] {
-    margin-bottom: 15px;
+.container-form input[type="password"]{
+    margin-top: 15px;
 }
 
 .container-form input[type="text"]:focus,
@@ -49,6 +49,7 @@
     font-size: large;
 }
 
+
 .container-form input[type="submit"],
 .container-form button {
     background-color: antiquewhite;
@@ -60,4 +61,14 @@
 .container-form button:hover {
     background-color: burlywood;
     color: midnightblue;
+}
+
+
+.container-form-roles-options {
+    margin-bottom: 10px;
+}
+
+.container-form-roles-options input[type="checkbox"] {
+    margin-top: 10px;
+    margin-right: 5px;
 }

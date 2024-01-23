@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -29,12 +31,6 @@ public class DeleteStudentController {
 	@Autowired
 	private AuthenticationManager manager;
 	
-//	@Autowired
-//	private UserService userService;
-//	
-//	@Autowired
-//	private PasswordEncoder passwordEncoder;
-	
 	@GetMapping("/deleteStudent/load")
 	ModelAndView load() {
 		ModelAndView modelAndView = new ModelAndView("deleteStudent");
@@ -43,7 +39,7 @@ public class DeleteStudentController {
 	}
 	
 	@PostMapping("/deleteStudent/find")
-	ModelAndView findStudent(Long id) {
+	ModelAndView find(Long id) {
 		ModelAndView modelAndView = new ModelAndView("deleteStudent");
 		StudentBean studentBean = service.findById(id);
 		if (studentBean==null) {
@@ -55,21 +51,21 @@ public class DeleteStudentController {
 	}
 	
 	@PostMapping("/delete/login")
-	ModelAndView confirmCredentials(@ModelAttribute StudentBean studentBean,
+	ModelAndView confirmCredentials(
+			@ModelAttribute StudentBean studentBean,
 			Authentication currentAuthentication,
-			String username, 
-			String password) {
+			@RequestParam String username, 
+			@RequestParam String password) {
 		
-//		UserDetails userDetails = null;
+		log.info("Controller called");
+		log.info("username, password :: " + username + ", " + password);
+		
 		boolean isMatch = false;
 		String message = "credentials verfification failed";
 
 		
 		if (currentAuthentication.getName().equals(username)) {
 			try {
-//				userDetails = userService.loadUserByUsername(username);
-//				isMatch = passwordEncoder.matches(password, userDetails.getPassword());
-				
 				UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
 				Authentication newAuthentication = manager.authenticate(token);
 				isMatch=newAuthentication.isAuthenticated();

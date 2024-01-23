@@ -7,7 +7,7 @@
 </head>
 
 <body>
-    <div th:replace="header :: #customHeader"></div>
+    <div th:replace="~{header :: #customHeader}"></div>
     <div class="container">
         <h1>Update Student</h1>
         <div class="container-find">
@@ -67,7 +67,7 @@
     </br>
     </br>
     </br>
-    <div th:replace="footer :: #customFooter"></div>
+    <div th:replace="~{footer :: #customFooter}"></div>
 </body>
 
 </html>
