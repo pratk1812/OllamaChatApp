@@ -19,37 +19,33 @@ import jakarta.validation.Valid;
 @Controller
 @SessionAttributes("studentBean")
 public class AddStudentController {
-	
-	private static Logger log = LogManager.getLogger(AddStudentController.class);
-	
-	@Autowired
-	private StudentService service;
-	
-	@GetMapping("/addStudent/load")
-	public ModelAndView load() {
-		ModelAndView modelAndView = new ModelAndView("addStudent");
-		modelAndView.addObject("studentBean", new StudentBean());
-		return modelAndView;
-	}
-	
-	@PostMapping("/addStudent/save")
-	public ModelAndView save(
-			@ModelAttribute @Valid StudentBean studentBean, 
-			BindingResult bindingResult) {
-		ModelAndView modelAndView = new ModelAndView();
-		log.info("save called");
-		if(bindingResult.hasErrors())
-			modelAndView.setViewName("addStudent");
-		else {
-			log.info(studentBean);
-			Long id = service.saveStudent(studentBean);
-			String message = "Save method called with return value(id) : " + id;
-			modelAndView.setViewName("addStudent");
-			modelAndView.addObject("studentBean", new StudentBean());
-			modelAndView.addObject("message", message);
-		}
-		
-		return modelAndView;
-	}
-	
+
+  private static final Logger log = LogManager.getLogger(AddStudentController.class);
+
+  @Autowired private StudentService service;
+
+  @GetMapping("/addStudent/load")
+  public ModelAndView load() {
+    ModelAndView modelAndView = new ModelAndView("addStudent");
+    modelAndView.addObject("studentBean", new StudentBean());
+    return modelAndView;
+  }
+
+  @PostMapping("/addStudent/save")
+  public ModelAndView save(
+      @ModelAttribute @Valid StudentBean studentBean, BindingResult bindingResult) {
+    ModelAndView modelAndView = new ModelAndView();
+    log.info("save called");
+    if (bindingResult.hasErrors()) modelAndView.setViewName("addStudent");
+    else {
+      log.info(studentBean);
+      Long id = service.saveStudent(studentBean);
+      String message = "Save method called with return value(id) : " + id;
+      modelAndView.setViewName("addStudent");
+      modelAndView.addObject("studentBean", new StudentBean());
+      modelAndView.addObject("message", message);
+    }
+
+    return modelAndView;
+  }
 }

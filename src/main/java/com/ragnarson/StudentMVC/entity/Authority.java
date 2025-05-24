@@ -1,44 +1,40 @@
 package com.ragnarson.StudentMVC.entity;
 
+import com.ragnarson.StudentMVC.enums.Roles;
+import jakarta.persistence.Embeddable;
 import org.springframework.security.core.GrantedAuthority;
 
-import com.ragnarson.StudentMVC.enums.Roles;
-
-import jakarta.persistence.Embeddable;
-
 @Embeddable
-public class Authority implements GrantedAuthority{
+public class Authority implements GrantedAuthority {
 
-	private static final long serialVersionUID = 8105496665857811927L;
-	
-	private String authority;
-	
-	
-	public Authority() {
-		super();
-	}
+  private static final long serialVersionUID = 8105496665857811927L;
 
-	public Authority(String authority) {
-		super();
-		this.authority = authority;
-	}
+  private String authority;
 
-	public Authority(Roles role) {
-		authority = role.name();
-	}
+  public Authority() {
+    super();
+  }
 
-	@Override
-	public String getAuthority() {
-		return this.authority;
-	}
+  public Authority(String authority) {
+    super();
+    this.authority = authority;
+  }
 
-	public void setAuthority(String authority) {
-		this.authority = authority;
-	}
+  public Authority(Roles role) {
+    authority = role.name();
+  }
 
-	@Override
-	public String toString() {
-		return "Authority [authority=" + authority + "]";
-	}
-	
+  @Override
+  public String getAuthority() {
+    return this.authority;
+  }
+
+  public void setAuthority(String authority) {
+    this.authority = authority;
+  }
+
+  @Override
+  public String toString() {
+    return "Authority [authority=" + authority + "]";
+  }
 }

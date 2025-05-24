@@ -8,6 +8,7 @@ import com.ragnarson.StudentMVC.entity.UserEntity;
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
-	UserEntity findByUsername(String username);
-	boolean existsByUsername(String username);
+  UserEntity findByUsername(String username);
+
+  boolean existsByUsername(String username);
 }

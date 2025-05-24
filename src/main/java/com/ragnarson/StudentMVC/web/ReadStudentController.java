@@ -1,7 +1,10 @@
 package com.ragnarson.StudentMVC.web;
 
+import com.ragnarson.StudentMVC.bean.StudentBean;
+import com.ragnarson.StudentMVC.service.ReadStudentParams;
+import com.ragnarson.StudentMVC.service.StudentService;
+import jakarta.validation.Valid;
 import java.util.List;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,15 +15,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.ragnarson.StudentMVC.bean.StudentBean;
-import com.ragnarson.StudentMVC.service.ReadStudentParams;
-import com.ragnarson.StudentMVC.service.StudentService;
-
-import jakarta.validation.Valid;
-
 @Controller
 public class ReadStudentController {
-	private static Logger log = LogManager.getLogger(ReadStudentController.class);
+	private static final Logger log = LogManager.getLogger(ReadStudentController.class);
 
 	
 	@Autowired

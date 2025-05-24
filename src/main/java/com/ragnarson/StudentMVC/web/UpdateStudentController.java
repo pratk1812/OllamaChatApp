@@ -1,24 +1,21 @@
 package com.ragnarson.StudentMVC.web;
 
+import com.ragnarson.StudentMVC.bean.StudentBean;
+import com.ragnarson.StudentMVC.service.StudentService;
+import jakarta.validation.Valid;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.ragnarson.StudentMVC.bean.StudentBean;
-import com.ragnarson.StudentMVC.service.StudentService;
-
-import jakarta.validation.Valid;
-
 @Controller
 public class UpdateStudentController {
 	
-	private static Logger log = LogManager.getLogger(UpdateStudentController.class);
+	private static final Logger log = LogManager.getLogger(UpdateStudentController.class);
 
 	
 	@Autowired

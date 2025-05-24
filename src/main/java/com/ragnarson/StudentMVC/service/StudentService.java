@@ -1,10 +1,16 @@
 package com.ragnarson.StudentMVC.service;
 
+import com.ragnarson.StudentMVC.bean.StudentBean;
+import com.ragnarson.StudentMVC.entity.StudentEntity;
+import com.ragnarson.StudentMVC.repo.StudentRepository;
+import jakarta.transaction.Transactional;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Valid;
+import jakarta.validation.Validator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.BeanUtils;
@@ -12,21 +18,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
-import com.ragnarson.StudentMVC.bean.StudentBean;
-import com.ragnarson.StudentMVC.entity.StudentEntity;
-import com.ragnarson.StudentMVC.repo.StudentRepository;
-
-import jakarta.transaction.Transactional;
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.Valid;
-import jakarta.validation.Validator;
-
-
 @Service
 @Transactional
 public class StudentService {
 	
-	private static Logger log = LogManager.getLogger(StudentService.class);
+	private static final Logger log = LogManager.getLogger(StudentService.class);
 
 	@Autowired
 	private StudentRepository repository;

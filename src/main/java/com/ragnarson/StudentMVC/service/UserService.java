@@ -1,11 +1,14 @@
 package com.ragnarson.StudentMVC.service;
 
+import com.ragnarson.StudentMVC.entity.Authority;
+import com.ragnarson.StudentMVC.entity.UserEntity;
+import com.ragnarson.StudentMVC.enums.Roles;
+import com.ragnarson.StudentMVC.repo.UserRepository;
+import jakarta.transaction.Transactional;
 import java.util.List;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.NonNull;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,18 +16,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 
-import com.ragnarson.StudentMVC.entity.Authority;
-import com.ragnarson.StudentMVC.entity.UserEntity;
-import com.ragnarson.StudentMVC.enums.Roles;
-import com.ragnarson.StudentMVC.repo.UserRepository;
-
-import jakarta.transaction.Transactional;
-
 @Service
 @Transactional
 public class UserService implements UserDetailsManager {
 	
-	private static Logger log = LogManager.getLogger(UserService.class);
+	private static final Logger log = LogManager.getLogger(UserService.class);
 
 	@Autowired
 	private UserRepository userRepository;

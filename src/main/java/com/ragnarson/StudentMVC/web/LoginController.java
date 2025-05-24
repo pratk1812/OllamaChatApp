@@ -1,8 +1,10 @@
 package com.ragnarson.StudentMVC.web;
 
+import com.ragnarson.StudentMVC.enums.Roles;
+import com.ragnarson.StudentMVC.service.ServiceException;
+import com.ragnarson.StudentMVC.service.UserService;
 import java.util.Arrays;
 import java.util.List;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.ragnarson.StudentMVC.enums.Roles;
-import com.ragnarson.StudentMVC.service.ServiceException;
-import com.ragnarson.StudentMVC.service.UserService;
-
 @Controller
 public class LoginController {
-	private static Logger log = LogManager.getLogger(LoginController.class);
+	private static final Logger log = LogManager.getLogger(LoginController.class);
 
 	@Autowired
 	private UserService service;
