@@ -1,6 +1,6 @@
 package com.ragnarson.StudentMVC.web;
 
-import com.ragnarson.StudentMVC.bean.StudentBean;
+import com.ragnarson.StudentMVC.model.bean.StudentBean;
 import com.ragnarson.StudentMVC.service.ReadStudentParams;
 import com.ragnarson.StudentMVC.service.StudentService;
 import jakarta.validation.Valid;

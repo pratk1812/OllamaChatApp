@@ -1,4 +1,4 @@
-package com.ragnarson.StudentMVC.entity;
+package com.ragnarson.StudentMVC.persistence.entity;
 
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;

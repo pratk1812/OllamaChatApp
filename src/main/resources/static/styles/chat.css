@@ -1,0 +1,80 @@
+@import url('header.css');
+@import url('footer.css');
+@import url('body.css');
+
+/* Container Styling */
+#main-content {
+    max-width: 800px;
+    margin: auto;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Form Styling */
+.form-inline {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.form-group label {
+    font-weight: bold;
+}
+
+input#name {
+    width: 200px;
+}
+
+/* Button Styles */
+.btn {
+    padding: 8px 15px;
+    font-size: 14px;
+    border-radius: 5px;
+}
+
+#connect {
+    background-color: #28a745;
+    color: white;
+}
+
+#disconnect {
+    background-color: #dc3545;
+    color: white;
+}
+
+#send {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Table Styling */
+#conversation {
+    margin-top: 20px;
+}
+
+#conversation th {
+    background-color: #343a40;
+    color: white;
+    text-align: left;
+}
+
+#conversation tbody {
+    font-size: 14px;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .form-inline {
+        flex-direction: column;
+    }
+
+    input#name {
+        width: 100%;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}

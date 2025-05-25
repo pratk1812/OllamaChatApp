@@ -12,8 +12,10 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.header.writers.StaticHeadersWriter;
@@ -33,8 +35,8 @@ public class MySecConfig {
 	}
 	@Bean
     public PasswordEncoder passwordEncoder() {
-        //return NoOpPasswordEncoder.getInstance();
-		return new BCryptPasswordEncoder();
+        return NoOpPasswordEncoder.getInstance();
+		//return new BCryptPasswordEncoder();
     }
 
     @Bean
@@ -64,14 +66,16 @@ public class MySecConfig {
         		.xssProtection(xss->xss
         				.headerValue(HeaderValue.ENABLED_MODE_BLOCK))
         		.contentSecurityPolicy(policy->policy
-        				.policyDirectives("form-action 'self'; style-src 'self'; script-src 'self'; report-to csp-violation-report"))
-        		.frameOptions(frame->frame
-        				.sameOrigin()))
+        				.policyDirectives("form-action 'self'; style-src 'self' https://maxcdn.bootstrapcdn.com; script-src 'self' https://code" +
+								".jquery.com https://cdn.jsdelivr.net; report-to " +
+								"csp-violation-report"))
+        		.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
         .authenticationProvider(authenticationProvider)
         .authorizeHttpRequests(authorize -> authorize
         	.requestMatchers("/static/**").permitAll()
             .requestMatchers(RegexRequestMatcher.regexMatcher("/(addStudent|readStudent)/[A-Za-z0-9]+")).hasAuthority(Roles.USER.name())
             .requestMatchers(RegexRequestMatcher.regexMatcher("/(deleteStudent|updateStudent)/[A-Za-z0-9]+")).hasAuthority(Roles.ADMIN.name())
+				.requestMatchers("/chat", "/app/**", "/topic/**", "/queue/**", "/gs-guide-websocket").authenticated()
             .requestMatchers("/").permitAll()
             .anyRequest().permitAll())
         .formLogin(form->form

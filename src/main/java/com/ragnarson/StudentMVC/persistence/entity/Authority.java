@@ -1,12 +1,15 @@
-package com.ragnarson.StudentMVC.entity;
+package com.ragnarson.StudentMVC.persistence.entity;
 
 import com.ragnarson.StudentMVC.enums.Roles;
 import jakarta.persistence.Embeddable;
 import org.springframework.security.core.GrantedAuthority;
 
+import java.io.Serial;
+
 @Embeddable
 public class Authority implements GrantedAuthority {
 
+  @Serial
   private static final long serialVersionUID = 8105496665857811927L;
 
   private String authority;

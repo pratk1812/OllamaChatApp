@@ -1,6 +1,6 @@
 package com.ragnarson.StudentMVC.web;
 
-import com.ragnarson.StudentMVC.bean.StudentBean;
+import com.ragnarson.StudentMVC.model.bean.StudentBean;
 import com.ragnarson.StudentMVC.service.StudentService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

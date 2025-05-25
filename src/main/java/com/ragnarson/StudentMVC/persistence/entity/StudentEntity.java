@@ -1,4 +1,4 @@
-package com.ragnarson.StudentMVC.entity;
+package com.ragnarson.StudentMVC.persistence.entity;
 
 import com.ragnarson.StudentMVC.enums.Major;
 import jakarta.persistence.Entity;

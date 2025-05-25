@@ -1,4 +1,4 @@
-package com.ragnarson.StudentMVC.bean;
+package com.ragnarson.StudentMVC.model.bean;
 
 import com.ragnarson.StudentMVC.enums.Major;
 import jakarta.validation.constraints.DecimalMax;

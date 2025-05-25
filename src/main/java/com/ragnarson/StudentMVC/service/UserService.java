@@ -1,9 +1,9 @@
 package com.ragnarson.StudentMVC.service;
 
-import com.ragnarson.StudentMVC.entity.Authority;
-import com.ragnarson.StudentMVC.entity.UserEntity;
+import com.ragnarson.StudentMVC.persistence.entity.Authority;
+import com.ragnarson.StudentMVC.persistence.entity.UserEntity;
 import com.ragnarson.StudentMVC.enums.Roles;
-import com.ragnarson.StudentMVC.repo.UserRepository;
+import com.ragnarson.StudentMVC.persistence.repo.UserRepository;
 import jakarta.transaction.Transactional;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;

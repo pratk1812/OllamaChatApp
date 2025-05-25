@@ -1,4 +1,4 @@
-package com.finan.myaichat.persistence.convertor;
+package com.ragnarson.StudentMVC.persistence.converter;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
@@ -6,7 +6,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Converter(autoApply = true)
-public class LocalDateConvertor implements AttributeConverter<LocalDateTime, Timestamp> {
+public class LocalDateTimeConvertor implements AttributeConverter<LocalDateTime, Timestamp> {
 
   @Override
   public Timestamp convertToDatabaseColumn(LocalDateTime localDateTime) {

@@ -1,8 +1,8 @@
 package com.ragnarson.StudentMVC.service;
 
-import com.ragnarson.StudentMVC.bean.StudentBean;
-import com.ragnarson.StudentMVC.entity.StudentEntity;
-import com.ragnarson.StudentMVC.repo.StudentRepository;
+import com.ragnarson.StudentMVC.model.bean.StudentBean;
+import com.ragnarson.StudentMVC.persistence.entity.StudentEntity;
+import com.ragnarson.StudentMVC.persistence.repo.StudentRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Valid;

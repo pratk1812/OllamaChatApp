@@ -1,6 +1,6 @@
-package com.ragnarson.StudentMVC.repo;
+package com.ragnarson.StudentMVC.persistence.repo;
 
-import com.ragnarson.StudentMVC.entity.StudentEntity;
+import com.ragnarson.StudentMVC.persistence.entity.StudentEntity;
 import com.ragnarson.StudentMVC.enums.Major;
 import java.util.Date;
 import java.util.List;

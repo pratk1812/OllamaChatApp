@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.ragnarson.StudentMVC.bean.StudentBean;
+import com.ragnarson.StudentMVC.model.bean.StudentBean;
 import com.ragnarson.StudentMVC.service.StudentService;
 
 import jakarta.validation.Valid;
