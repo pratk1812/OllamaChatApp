@@ -66,8 +66,9 @@ public class MySecConfig {
         		.xssProtection(xss->xss
         				.headerValue(HeaderValue.ENABLED_MODE_BLOCK))
         		.contentSecurityPolicy(policy->policy
-        				.policyDirectives("form-action 'self'; style-src 'self' https://maxcdn.bootstrapcdn.com; script-src 'self' https://code" +
-								".jquery.com https://cdn.jsdelivr.net; report-to " +
+        				.policyDirectives("form-action 'self'; style-src 'self' https://maxcdn.bootstrapcdn.com https://cdn.jsdelivr.net; " +
+								"script-src 'self' https://code" +
+								".jquery.com https://cdn.jsdelivr.net  ; report-to " +
 								"csp-violation-report"))
         		.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
         .authenticationProvider(authenticationProvider)

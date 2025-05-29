@@ -13,7 +13,7 @@ import org.hibernate.type.SqlTypes;
       @Index(name = "idx_chat_history_user_id_time_stamp", columnList = "user_id, time_stamp"),
       @Index(
           name = "idx_chat_history_chat",
-          columnList = "user_id, chat_id, message_type, time_stamp")
+          columnList = "user_id, chat_id, time_stamp")
     })
 public class ChatHistoryEntity {
   @Id
@@ -36,7 +36,6 @@ public class ChatHistoryEntity {
 
   @Lob
   @Column(name = "content")
-  @JdbcTypeCode(SqlTypes.CLOB)
   private String content;
 
   public Long getId() {

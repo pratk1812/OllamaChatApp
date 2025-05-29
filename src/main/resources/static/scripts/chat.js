@@ -4,12 +4,13 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     stompClient.onConnect = (frame) => {
-        setConnected(true);
         console.log('Connected: ' + frame);
+        setConnected(true);
 
         // Subscribe to user-specific queue dynamically
         stompClient.subscribe('/user/queue/specific-user', (greeting) => {
             showGreeting(JSON.parse(greeting.body).content);
+            document.getElementById("send").disabled = false;
         });
     };
 
@@ -25,11 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function setConnected(connected) {
         document.getElementById("connect").disabled = connected;
         document.getElementById("disconnect").disabled = !connected;
-
-        const conversation = document.getElementById("conversation");
-        conversation.style.display = connected ? "block" : "none";
-
-        document.getElementById("greetings").innerHTML = "";
+        document.getElementById("send").disabled = !connected;
     }
 
     function connect() {
@@ -44,6 +41,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function sendName() {
         const nameInput = document.getElementById("name").value;
+        document.getElementById("name").value = "";
+        document.getElementById("send").disabled = true;
+        showGreeting(nameInput);
 
         const messagePayload = {
             role: "client",
@@ -58,9 +58,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function showGreeting(message) {
-        const greetingsTable = document.getElementById("greetings");
+        const greetingsTable = document.getElementById("chatTable");
         const newRow = document.createElement("tr");
         const newCell = document.createElement("td");
+
         newCell.textContent = message;
         newRow.appendChild(newCell);
         greetingsTable.appendChild(newRow);
@@ -69,7 +70,9 @@ document.addEventListener("DOMContentLoaded", function () {
     // Ensure buttons work properly with event listeners
     document.getElementById("connect").addEventListener("click", connect);
     document.getElementById("disconnect").addEventListener("click", disconnect);
+
     document.getElementById("send").addEventListener("click", sendName);
+    document.getElementById("send").disabled = true;
 
     document.getElementById("logout-button").addEventListener("click", function () {
         if (stompClient) {

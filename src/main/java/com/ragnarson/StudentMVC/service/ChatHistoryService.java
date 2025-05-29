@@ -2,7 +2,11 @@ package com.ragnarson.StudentMVC.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.uuid.Generators;
 import com.ragnarson.StudentMVC.mapper.ChatHistoryMapper;
 import com.ragnarson.StudentMVC.model.bean.ChatHistoryDTO;
 import com.ragnarson.StudentMVC.persistence.entity.ChatHistoryEntity;
@@ -54,5 +58,15 @@ public class ChatHistoryService {
     return allChatHistory == null
         ? List.of()
         : allChatHistory.stream().map(ChatHistoryMapper::mapChatHistory).toList();
+  }
+
+  public Map<String, List<ChatHistoryDTO>> findAllChatHistory(String userId, String chatId) {
+    LOGGER.info("fetching chat history map");
+    return findAll(userId, chatId)
+            .stream().collect(Collectors.groupingBy(ChatHistoryDTO::getChatId));
+  }
+
+  public String newChat() {
+    return Generators.timeBasedEpochGenerator().generate().toString();
   }
 }
