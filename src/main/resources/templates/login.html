@@ -1,31 +1,47 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
-	<head>
-		<title>Log In</title>
-		<link th:href="@{styles/login.css}" rel="stylesheet" type="text/css">
-	</head>
-	<body>
-		<div th:replace="~{header :: #customHeader}"></div>
-			<div class="container">
-			<div class="container-login">
-			<p th:text="${alert}"></p>
-			
-				<h1>Log In</h1>
-				<h3 class="login-error" th:if="${param.error}">Invalid username and password.</h3>
-				<div class="container-form">
-					<form id="login" th:action="@{/login}" th:method="post">
-						<input type="text" name="username" placeholder="username" required/>
-						<input type="password" name="password" placeholder="password" required />
-						<input type="submit" value="Log in" />
-					</form>
-					<form id="register" th:action="@{/register}" th:method="get">
-						<input type="submit" value="Register" />
-					</form>
-				</div>
-				</div>
-			</div>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+	  integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+	  integrity="sha384-tViUnnbYAV00FLIhhi3v/dWt3Jxw4gZQcNoSCxCIFNJVCx7/D55/wXsrNIRANwdD" crossorigin="anonymous">
 
+<head>
+	<title>Log In</title>
+	<link th:href="@{styles/login.css}" rel="stylesheet" type="text/css">
+</head>
 
-		<div th:replace="~{footer :: #customFooter}"></div>
-	</body>
+<body class="d-flex flex-column min-vh-100 bg-dark text-light">
+<div th:replace="~{header :: #customHeader}"></div>
+<div th:if="${param.error}" class="alert alert-danger alert-dismissible fade show m-2" role="alert">
+	<strong>Invalid Credentials</strong> Username or password is incorrect
+	<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
+<div th:if="${param.register}" class="alert alert-success alert-dismissible fade show m-2" role="alert">
+	<strong>Registration Successful!</strong> You can now log in.
+	<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
+<main class="flex-grow-1 d-flex justify-content-center align-items-center">
+	<div class="container bg-secondary p-4 rounded col-sm-8 col-md-6 col-lg-5 col-xl-4">
+		<p class="text-start fs-1 fw-bold mb-4">Log In</p>
+		<form id="login" th:action="@{/login}" th:method="post" class="d-grid gap-3">
+			<input type="text" name="username" placeholder="Username" class="form-control" required />
+			<input type="password" name="password" placeholder="Password" class="form-control" required />
+			<button type="submit" class="btn btn-info mb-3 w-25">Log in</button>
+		</form>
+		<div class="">
+			<form id="register" th:action="@{/register}" th:method="get">
+				<button type="submit" class="btn btn-outline-light w-25">Register</button>
+			</form>
+		</div>
+	</div>
+</main>
+<div th:replace="~{footer :: #customFooter}"></div>
+</body>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+		crossorigin="anonymous"></script>
 </html>

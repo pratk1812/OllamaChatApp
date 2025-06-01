@@ -51,10 +51,9 @@ public class LoginController {
 		try {
 			service.register(username,password,options);
 			redirectAttributes.addFlashAttribute("alert", "User registered successfully!");
-			modelAndView.setViewName("redirect:/login");
+			modelAndView.setViewName("redirect:/login?register=true");
 		} catch (ServiceException e) {
-			redirectAttributes.addFlashAttribute("alert", "Failed! " + e.getMessage());
-			modelAndView.setViewName("redirect:/register");
+			modelAndView.setViewName("redirect:/register?error=true");
 		}
 		log.info("Username : " + username + " Password : " + password + "Roles : " + options);
 		
