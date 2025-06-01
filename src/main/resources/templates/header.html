@@ -11,10 +11,10 @@
 
 <body>
 
-	<header id="customHeader">
-		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+	<header id="customHeader" class="sticky-top">
+		<nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
 			<div class="container-fluid">
-				<a class="navbar-brand" href="#">Navbar</a>
+				<a class="navbar-brand" href="#">OCA</a>
 				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
 						aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
@@ -26,11 +26,11 @@
 						</li>
 					</ul>
 					<form class="d-flex" method="get" th:action="@{/login}" sec:authorize="isAnonymous()" th:method="get">
-						<button class= "btn btn-outline-success" type="submit">login</button>
+						<button class= "btn btn-success" type="submit">login</button>
 					</form>
 					<form  class="d-flex" id="logoutForm" method="post" th:action="@{/logout}" sec:authorize="isAuthenticated()">
 						<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-						<button id="logout-button" class="btn btn-outline-success" type="submit">logout</button>
+						<button id="logout-button" class="btn btn-danger" type="submit">logout</button>
 					</form>
 				</div>
 			</div>    </nav>

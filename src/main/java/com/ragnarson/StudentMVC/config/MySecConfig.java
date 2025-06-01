@@ -65,18 +65,13 @@ public class MySecConfig {
     			.addHeaderWriter(new StaticHeadersWriter("Report-to", REPORT_TO))
         		.xssProtection(xss->xss
         				.headerValue(HeaderValue.ENABLED_MODE_BLOCK))
-        		.contentSecurityPolicy(policy->policy
-        				.policyDirectives("form-action 'self'; style-src 'self' https://maxcdn.bootstrapcdn.com https://cdn.jsdelivr.net; " +
-								"script-src 'self' https://code" +
-								".jquery.com https://cdn.jsdelivr.net  ; report-to " +
-								"csp-violation-report"))
         		.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
         .authenticationProvider(authenticationProvider)
         .authorizeHttpRequests(authorize -> authorize
         	.requestMatchers("/static/**").permitAll()
             .requestMatchers(RegexRequestMatcher.regexMatcher("/(addStudent|readStudent)/[A-Za-z0-9]+")).hasAuthority(Roles.USER.name())
             .requestMatchers(RegexRequestMatcher.regexMatcher("/(deleteStudent|updateStudent)/[A-Za-z0-9]+")).hasAuthority(Roles.ADMIN.name())
-				.requestMatchers("/chat", "/app/**", "/topic/**", "/queue/**", "/gs-guide-websocket").authenticated()
+				.requestMatchers("/chat/**", "/app/**", "/topic/**", "/queue/**", "/gs-guide-websocket").authenticated()
             .requestMatchers("/").permitAll()
             .anyRequest().permitAll())
         .formLogin(form->form

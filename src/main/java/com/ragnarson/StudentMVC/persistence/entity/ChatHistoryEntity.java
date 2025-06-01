@@ -34,8 +34,7 @@ public class ChatHistoryEntity {
   @JdbcTypeCode(SqlTypes.TIMESTAMP)
   private LocalDateTime timeStamp;
 
-  @Lob
-  @Column(name = "content")
+  @Column(name = "content", columnDefinition = "LONGTEXT")
   private String content;
 
   public Long getId() {

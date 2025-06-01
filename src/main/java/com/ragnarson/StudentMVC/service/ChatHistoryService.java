@@ -1,6 +1,7 @@
 package com.ragnarson.StudentMVC.service;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -16,6 +17,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.ai.chat.messages.MessageType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ChatHistoryService {
@@ -28,22 +30,22 @@ public class ChatHistoryService {
     this.chatHistoryRepository = chatHistoryRepository;
   }
 
-  public void saveUserMessage(String message) {
+  public void saveUserMessage(String userId, String chatId, String message) {
     LOGGER.info("Saving user message");
     ChatHistoryEntity chatHistory = new ChatHistoryEntity();
-    chatHistory.setUserId("1");
-    chatHistory.setChatId("1");
+    chatHistory.setUserId(userId);
+    chatHistory.setChatId(chatId);
     chatHistory.setMessageType(MessageType.USER.getValue());
     chatHistory.setTimeStamp(LocalDateTime.now());
     chatHistory.setContent(message);
     chatHistoryRepository.save(chatHistory);
   }
 
-  public void saveAssistantMessage(String message) {
+  public void saveAssistantMessage(String userId, String chatId, String message) {
     LOGGER.info("Saving assistant message");
     ChatHistoryEntity chatHistory = new ChatHistoryEntity();
-    chatHistory.setUserId("1");
-    chatHistory.setChatId("1");
+    chatHistory.setUserId(userId);
+    chatHistory.setChatId(chatId);
     chatHistory.setMessageType(MessageType.ASSISTANT.getValue());
     chatHistory.setTimeStamp(LocalDateTime.now());
     chatHistory.setContent(message);
@@ -57,16 +59,33 @@ public class ChatHistoryService {
 
     return allChatHistory == null
         ? List.of()
-        : allChatHistory.stream().map(ChatHistoryMapper::mapChatHistory).toList();
+        : allChatHistory.stream().map(ChatHistoryMapper::mapChatHistory)
+            .sorted(Comparator.comparing(ChatHistoryDTO::getTimeStamp))
+            .toList();
   }
 
-  public Map<String, List<ChatHistoryDTO>> findAllChatHistory(String userId, String chatId) {
+  public List<ChatHistoryDTO> findAll(String userId) {
+    LOGGER.info("fetching chat history");
+    List<ChatHistoryEntity> allChatHistory =
+            chatHistoryRepository.findByUserId(userId);
+
+    return allChatHistory == null
+            ? List.of()
+            : allChatHistory.stream().map(ChatHistoryMapper::mapChatHistory).toList();
+  }
+
+  public Map<String, List<ChatHistoryDTO>> findAllChatHistory(String userId) {
     LOGGER.info("fetching chat history map");
-    return findAll(userId, chatId)
+    return findAll(userId)
             .stream().collect(Collectors.groupingBy(ChatHistoryDTO::getChatId));
   }
 
   public String newChat() {
     return Generators.timeBasedEpochGenerator().generate().toString();
+  }
+
+  @Transactional
+    public void deleteChat(String chatId, String name) {
+      chatHistoryRepository.deleteByUserIdAndChatId(name, chatId);
   }
 }

@@ -1,3 +1,8 @@
+    function setDeleteId(value) {
+        console.log("Value : "+value);
+        document.getElementById("deleteChatId").value = value;
+    }
+
 document.addEventListener("DOMContentLoaded", function () {
     const stompClient = new StompJs.Client({
         brokerURL: 'ws://localhost:8080/gs-guide-websocket'
@@ -8,14 +13,15 @@ document.addEventListener("DOMContentLoaded", function () {
         setConnected(true);
 
         // Subscribe to user-specific queue dynamically
-        stompClient.subscribe('/user/queue/specific-user', (greeting) => {
-            showGreeting(JSON.parse(greeting.body).content);
+        stompClient.subscribe('/user/queue/specific-user', (messagePayload) => {
+            showMessage(JSON.parse(messagePayload.body).content, "assistant");
             document.getElementById("send").disabled = false;
         });
     };
 
     stompClient.onWebSocketError = (error) => {
         console.error('Error with websocket', error);
+        disconnect();
     };
 
     stompClient.onStompError = (frame) => {
@@ -24,8 +30,6 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     function setConnected(connected) {
-        document.getElementById("connect").disabled = connected;
-        document.getElementById("disconnect").disabled = !connected;
         document.getElementById("send").disabled = !connected;
     }
 
@@ -39,16 +43,18 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log("Disconnected");
     }
 
-    function sendName() {
-        const nameInput = document.getElementById("name").value;
-        document.getElementById("name").value = "";
+    function sendMessage() {
+        const chatIdInput = document.getElementById("chatId").value;
+        const messageInput = document.getElementById("message").value;
+        document.getElementById("message").value = "";
         document.getElementById("send").disabled = true;
-        showGreeting(nameInput);
+        showMessage(messageInput, "user");
 
         const messagePayload = {
+            chatId: chatIdInput,
             role: "client",
             timestamp: new Date().toISOString(),
-            content: nameInput
+            content: messageInput
         };
 
         stompClient.publish({
@@ -57,21 +63,55 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    function showGreeting(message) {
-        const greetingsTable = document.getElementById("chatTable");
-        const newRow = document.createElement("tr");
-        const newCell = document.createElement("td");
+    function showMessage(message, messageType) {
+        // Select the chat list
+        const chatList = document.getElementById("chatTable");
 
-        newCell.textContent = message;
-        newRow.appendChild(newCell);
-        greetingsTable.appendChild(newRow);
+        // Create a new list item
+        const listItem = document.createElement("li");
+        listItem.className = "d-flex justify-content-between mb-4";
+
+        // Create the card container
+        const cardDiv = document.createElement("div");
+        cardDiv.className = "card bg-dark border-secondary";
+
+        // Create the card header
+        const cardHeader = document.createElement("div");
+        cardHeader.className = "card-header d-flex justify-content-between p-3 bg-secondary";
+
+        const typeP = document.createElement("p");
+        typeP.className = "fw-bold mb-0";
+        typeP.textContent = messageType;
+
+        const timeP = document.createElement("p");
+        timeP.className = "small mb-0";
+        timeP.innerHTML = `<i class="far fa-clock">Just now</i>`;
+
+        cardHeader.appendChild(typeP);
+        cardHeader.appendChild(timeP);
+
+        // Create the card body
+        const cardBody = document.createElement("div");
+        cardBody.className = "card-body";
+
+        const contentP = document.createElement("p");
+        contentP.className = "mb-0";
+        contentP.textContent = message;
+
+        cardBody.appendChild(contentP);
+
+        // Assemble the card
+        cardDiv.appendChild(cardHeader);
+        cardDiv.appendChild(cardBody);
+
+        // Append the card to the list item
+        listItem.appendChild(cardDiv);
+
+        // Append the new list item to the chat list
+        chatList.appendChild(listItem);
     }
 
-    // Ensure buttons work properly with event listeners
-    document.getElementById("connect").addEventListener("click", connect);
-    document.getElementById("disconnect").addEventListener("click", disconnect);
-
-    document.getElementById("send").addEventListener("click", sendName);
+    document.getElementById("send").addEventListener("click", sendMessage);
     document.getElementById("send").disabled = true;
 
     document.getElementById("logout-button").addEventListener("click", function () {
@@ -81,8 +121,5 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("logoutForm").submit(); // Submit logout form
     });
 
-    // Prevent form submission from reloading page
-    document.querySelectorAll("form").forEach(form => {
-        form.addEventListener('submit', (event) => event.preventDefault());
-    });
+    stompClient.activate();
 });

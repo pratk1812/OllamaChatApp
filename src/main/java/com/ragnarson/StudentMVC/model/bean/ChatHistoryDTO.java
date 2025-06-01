@@ -1,6 +1,8 @@
 package com.ragnarson.StudentMVC.model.bean;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 public class ChatHistoryDTO {
 
@@ -9,6 +11,7 @@ public class ChatHistoryDTO {
   private String messageType;
   private LocalDateTime timeStamp;
   private String content;
+  private String timeAgo;
 
   public String getUserId() {
     return userId;
@@ -48,6 +51,40 @@ public class ChatHistoryDTO {
 
   public void setContent(String content) {
     this.content = content;
+  }
+
+  public String getTimeAgo() {
+    if (timeStamp == null) {
+      return "Unknown";
+    }
+
+    LocalDateTime now = LocalDateTime.now();
+    Duration duration = Duration.between(timeStamp, now);
+    long minutes = duration.toMinutes();
+    long hours = duration.toHours();
+    long days = duration.toDays();
+
+    if (minutes < 1) {
+      return "Just now";
+    } else if (hours < 1) {
+      return minutes + " mins ago";
+    } else if (days < 1) {
+      return hours + " hours ago";
+    } else if (days <= 30) {
+      return days + " days ago";
+    }
+    long months = ChronoUnit.MONTHS.between(timeStamp, now);
+    if (months < 12) {
+      return months + " months ago";
+    }
+    long years = ChronoUnit.YEARS.between(timeStamp, now);
+    return years + " years ago";
+  }
+
+
+
+  public void setTimeAgo(String timeAgo) {
+    this.timeAgo = timeAgo;
   }
 
   @Override

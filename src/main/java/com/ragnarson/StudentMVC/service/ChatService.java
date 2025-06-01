@@ -30,12 +30,11 @@ public class ChatService {
     this.ollamaChatModel = ollamaChatModel;
   }
 
-  public MessageResponse generateMessage(String message) {
+  public MessageResponse generateMessage(String userId, String chatId, String message) {
 
-    chatHistoryService.saveUserMessage(message);
+    chatHistoryService.saveUserMessage(userId, chatId, message);
 
-    List<ChatHistoryDTO> allChatHistoryDTO =
-        chatHistoryService.findAll("1", "1");
+    List<ChatHistoryDTO> allChatHistoryDTO = chatHistoryService.findAll(userId, chatId);
 
     List<Message> allMessages =
         allChatHistoryDTO.stream()
@@ -51,7 +50,7 @@ public class ChatService {
 
     ChatResponse chatResponse = ollamaChatModel.call(new Prompt(allMessages));
 
-    chatHistoryService.saveAssistantMessage(chatResponse.getResult().getOutput().getText());
+    chatHistoryService.saveAssistantMessage(userId, chatId, chatResponse.getResult().getOutput().getText());
 
     MessageResponse messageResponse = new MessageResponse();
     messageResponse.setRole(MessageType.ASSISTANT.getValue());
