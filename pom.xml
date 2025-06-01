@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.ragnarson</groupId>
-	<artifactId>StudentMVC</artifactId>
+	<artifactId>OllamaChatApp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>StudentMVC</name>
+	<name>OllamaChatApp</name>
 	<description>Web App to perform Crud operations</description>
 	<properties>
 		<java.version>17</java.version>
