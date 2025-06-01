@@ -1,45 +1,42 @@
-# StudentMVC
+# Chat Application
 
-## Description
-StudentMVC is a Spring MVC project designed to perform CRUD (Create, Read, Update, Delete) operations on Student Data. It uses Spring Security to implement authentication and authorization management.
+## Overview
+A real-time chat application built using **Spring Boot**, **Thymeleaf**, and **WebSockets**. It allows users to send and receive messages dynamically.
 
-## Roles
-There are two default roles: "ADMIN" and "USER". 
-- The "ADMIN" role has the privilege to perform all CRUD operations.
-- The "USER" role can only perform read (SELECT) and add (INSERT) operations.
+## Features
+- User authentication and chat history tracking.
+- Real-time messaging using WebSockets.
+- Responsive UI designed with Bootstrap.
+- Option to delete chats.
 
-## Prerequisites
-- Java 17
-- Maven
-- MySQL
+## Technologies Used
+- Spring Boot
+- Thymeleaf
+- Bootstrap
+- WebSockets
+- JavaScript (for client-side functionality)
 
-## Dependencies
-- Spring Boot Starter Data JPA
-- Spring Boot Starter Security
-- Spring Boot Starter Thymeleaf
-- Spring Boot Starter Web
-- Thymeleaf Extras Springsecurity6
-- MySQL Connector Java
-- Spring Boot Starter Validation
-- Spring Boot Starter Test
-- Spring Boot Devtools
-- Spring Security Test
-
-## Setup
+## Installation
 1. Clone the repository:
+   ```bash
+   git clone https://github.com/pratk1812/OllamaChatApp.git
+   ```
+2. Run the application:
+   ```bash
+   mvn spring-boot:run
+   ```
+3. Open in browser:
+   ```bash
+   http://localhost:8080/chat
+   ```
 
-git clone https://github.com/pratk1812/StudentMVC.git
-
-2. Navigate to the project directory:
-
-cd StudentMVC
-
-3. Build the project:
-
-mvn clean install
-
-4. Run the application:
-
-mvn spring-boot:run
-
-Visit `http://localhost:8080` in your browser to access the application.
+## Usage
+- View past conversations in the history section.
+- Send new messages in real-time.
+- Delete chat sessions when needed.
+  
+## Future Improvements
+- Additional UI enhancements.
+- Security fixes
+- Connection safety
+- NIO
